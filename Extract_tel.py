@@ -1,25 +1,26 @@
 import streamlit as st
 
-# 🔐 Protection par mot de passe
-PASSWORD = "AEDbadr2025@"  # Remplace par ton mot de passe
+# Mot de passe
+PASSWORD = "AEDbadr2025@"
 
+# Initialisation de l'état
 if "auth_ok" not in st.session_state:
     st.session_state.auth_ok = False
 
+# Affichage du champ de mot de passe uniquement si non validé
 if not st.session_state.auth_ok:
-    st.sidebar.header("🔐 Accès sécurisé")
-    password_input = st.sidebar.text_input("Entrez le mot de passe :", type="password")
-    
-    if password_input == PASSWORD:
-        st.session_state.auth_ok = True
-    elif password_input != "":
-        st.warning("Mot de passe incorrect. Veuillez réessayer.")
-        st.stop()
-
-# Si le mot de passe est validé, le reste de l'app s'affiche normalement
-if not st.session_state.auth_ok:
+    with st.sidebar:
+        st.header("🔒 Accès sécurisé")
+        password_input = st.text_input("Entrez le mot de passe :", type="password")
+        if password_input == PASSWORD:
+            st.session_state.auth_ok = True
+            st.rerun()  # 🔁 Recharge l'app pour masquer le champ
+        elif password_input != "":
+            st.warning("Mot de passe incorrect. Veuillez réessayer.")
     st.stop()
 
+# Le reste de ton app ici (sera affiché uniquement après validation)
+st.write("✅ Accès autorisé. Bienvenue !")
 
 import pandas as pd
 import phonenumbers

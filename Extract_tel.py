@@ -3,12 +3,19 @@ import streamlit as st
 # 🔐 Protection par mot de passe
 PASSWORD = "AEDbadr2025@"  # Remplace par ton mot de passe
 
-st.sidebar.header("🔐 Accès sécurisé")
-password_input = st.sidebar.text_input("Entrez le mot de passe :", type="password")
+if "auth_ok" not in st.session_state:
+    st.session_state.auth_ok = False
 
-if password_input != PASSWORD:
-    st.warning("Mot de passe incorrect. Veuillez réessayer.")
-    st.stop()
+if not st.session_state.auth_ok:
+    st.sidebar.header("🔐 Accès sécurisé")
+    password_input = st.sidebar.text_input("Entrez le mot de passe :", type="password")
+    
+    if password_input == PASSWORD:
+        st.session_state.auth_ok = True
+        st.experimental_rerun()
+    elif password_input != "":
+        st.warning("Mot de passe incorrect. Veuillez réessayer.")
+        st.stop()
 
 import pandas as pd
 import phonenumbers

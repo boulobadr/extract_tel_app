@@ -12,10 +12,14 @@ if not st.session_state.auth_ok:
     
     if password_input == PASSWORD:
         st.session_state.auth_ok = True
-        st.experimental_rerun()
     elif password_input != "":
         st.warning("Mot de passe incorrect. Veuillez réessayer.")
         st.stop()
+
+# Si le mot de passe est validé, le reste de l'app s'affiche normalement
+if not st.session_state.auth_ok:
+    st.stop()
+
 
 import pandas as pd
 import phonenumbers
